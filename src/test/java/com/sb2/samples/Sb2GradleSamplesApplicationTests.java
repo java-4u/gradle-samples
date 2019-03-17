@@ -1,4 +1,4 @@
-package com.sb2.sb2gradlesamples;
+package com.sb2.samples;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
