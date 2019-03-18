@@ -8,17 +8,29 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+/**
+ * @author karthikmekala
+ *
+ */
 @Entity
 @Table(name="customers")
 @Data
+@NoArgsConstructor
 public class Customer {
 
+	/**
+	 * 
+	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	private long customerId;
 	
 	
+	/**
+	 * 
+	 */
 	@Column(name="first_name")
 	private String firstName;
 }

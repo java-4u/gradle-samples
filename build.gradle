@@ -1,11 +1,13 @@
 plugins {
 	id 'org.springframework.boot' version '2.1.3.RELEASE'
 	id 'java'
+	id 'pmd'
 }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'io.spring.dependency-management'
+
 
 group = 'com.sb2.'
 version = '0.0.1-SNAPSHOT'
