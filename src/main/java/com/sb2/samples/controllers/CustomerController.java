@@ -1,5 +1,7 @@
 package com.sb2.samples.controllers;
 
+import java.util.Optional;
+
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +23,7 @@ import com.sb2.samples.repositories.CustomerRepository;
 @RequestMapping("customers")
 public class CustomerController {
 
-	private Logger logger = Logger.getLogger(CustomerController.class);
+	private final static Logger LOGGER = Logger.getLogger(CustomerController.class);
 	
 	@Autowired
 	private CustomerRepository customerRepository;
@@ -33,20 +35,23 @@ public class CustomerController {
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Page<Customer>> getAll(){
 		Pageable pageable  = PageRequest.of(0, 10);
-		return ResponseEntity.ok(this.customerRepository.findAll(pageable));
+		Page<Customer> customerPage = this.customerRepository.findAll(pageable);
+		return ResponseEntity.ok(customerPage);
 	}
 	
 	@GetMapping(value="{id}", produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Customer> getById(long id){
-		return ResponseEntity.ok(this.customerRepository.findById(id).get());
+		Optional<Customer> customerPage = this.customerRepository.findById(id);
+		Customer customer = customerPage.get();
+		return ResponseEntity.ok(customer);
 	}
 	
 	
 	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Customer> save(@RequestBody String payload){
-		
 		Customer customer = this.gson.fromJson(payload, Customer.class);
-		return ResponseEntity.ok(this.customerRepository.save(customer));
+		customer  = this.customerRepository.save(customer);
+		return ResponseEntity.ok(customer);
 	}
 	
 	
