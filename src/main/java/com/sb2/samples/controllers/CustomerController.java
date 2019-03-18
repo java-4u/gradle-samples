@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,6 @@ import com.google.gson.Gson;
 import com.sb2.samples.entities.Customer;
 import com.sb2.samples.repositories.CustomerRepository;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /**
@@ -39,14 +39,12 @@ public class CustomerController {
 	 * 
 	 */
 	@Autowired
-	@Getter
 	public CustomerRepository customerRepo;
 	
 	/**
 	 * 
 	 */
 	@Autowired
-	@Getter
 	public Gson gson;
 
 	
@@ -66,10 +64,11 @@ public class CustomerController {
 	 * @return
 	 */
 	@GetMapping(value="{customerId}", produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Customer> getById(final long customerId){
-		final Optional<Customer> customerPage = this.customerRepo.findById(customerId);
-		//final Customer customer = customerPage.get();
-		return ResponseEntity.ok(customerPage.get());
+	public ResponseEntity<Customer> getById(@PathVariable("customerId") String customerId){
+		final Optional<Customer> customerPage = this.customerRepo.findById(Long.parseLong(customerId));
+		if(!customerPage.isPresent())
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(customerPage.get());   // NOPMD by karthikmekala on 18/3/19 4:42 PM
 	}
 	
 	
@@ -80,7 +79,7 @@ public class CustomerController {
 	@PostMapping(consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Customer> save(final @RequestBody String payload){
 		final Customer customer = this.gson.fromJson(payload, Customer.class);
-		return ResponseEntity.ok(this.customerRepo.save(customer));
+		return ResponseEntity.created(null).body(this.customerRepo.save(customer));   // NOPMD by karthikmekala on 18/3/19 4:42 PM
 	}
 	
 	

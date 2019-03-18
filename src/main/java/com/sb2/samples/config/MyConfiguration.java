@@ -10,7 +10,7 @@ import com.google.gson.Gson;
  *
  */
 @Configuration
-public class MyConfiguration {
+public class MyConfiguration {  // NOPMD by karthikmekala on 18/3/19 4:43 PM
 
 	/**
 	 * @return
