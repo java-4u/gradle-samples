@@ -12,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,6 +23,7 @@ import com.sb2.samples.entities.Customer;
  *
  */
 @RunWith(SpringRunner.class)
+@ActiveProfiles(profiles="h2test")
 @SpringBootTest(webEnvironment=WebEnvironment.RANDOM_PORT)
 public class Sb2GradleSamplesApplicationTests {
 
@@ -75,6 +77,7 @@ public class Sb2GradleSamplesApplicationTests {
 	
 	
 	@Test
+	@Ignore
 	public void testGetCustomerById() throws URISyntaxException {
 		final String baseUrl = "http://localhost:"+randomPort+"/gradle/api/customers/9999";
 		URI uri = new URI(baseUrl);		
